@@ -385,12 +385,261 @@ $classname::aStaticMethod();
 
 <!-- static property -->
 <?php
-class X{
+class X
+{
     public static $my_static = 'x';
-    public function staticValue(){
+    public function staticValue()
+    {
         return self::$my_static;
     }
 }
 
 print X::$my_static . '<br>';
+?>
+
+<!-- class Abstraction -->
+<?php
+abstract class Animal
+{
+    abstract public function makeSound();
+    public function sleep()
+    {
+        echo "sleeping..<br>";
+    }
+}
+
+class Dog extends Animal
+{
+    public function makeSound()
+    {
+        echo "woooff...wooff...<br>";
+    }
+}
+
+class Cat extends Animal
+{
+    public function makeSound()
+    {
+        echo "meow...meow...<br>";
+    }
+}
+
+$dog = new Dog();
+$dog->makeSound();
+$cat = new Cat();
+$cat->makeSound();
+$dog->sleep();
+$cat->sleep();
+?>
+
+<!-- Object Interfaces -->
+
+<?php
+
+interface Bank
+{
+    public function deposit();
+}
+
+class CanaraBank implements Bank
+{
+    public function deposit()
+    {
+        echo "Deposited in Canara bank <br>";
+    }
+}
+
+class ICBI implements Bank
+{
+    public function deposit()
+    {
+        echo "Deposited in ICBI bank <br>";
+    }
+}
+
+// polimorphism
+function deposit(Bank $bank)
+{
+    $bank->deposit();
+}
+
+$canara = new CanaraBank();
+$icbi = new ICBI();
+deposit($canara);
+deposit($icbi);
+
+?>
+
+<!-- Traits -->
+<?php
+
+trait TimeStamps
+{
+    public function created_at()
+    {
+        return date('Y-m-d H:i:s');
+    }
+}
+
+trait SoftDeletes
+{
+    public function delete()
+    {
+        echo "Record has marked as deleted <br>";
+    }
+}
+
+class UserDel
+{
+    use TimeStamps, SoftDeletes;
+}
+
+$user = new UserDel();
+echo 'created at: ' . $user->created_at() . '<br>';
+$user->delete();
+?>
+
+<!-- Overloading -->
+
+<?php
+
+class Demo
+{
+    private $data = [];
+    public function __set($name, $value)
+    {
+        echo "__set called for $name = $value\n<br>";
+
+        $this->data[$name] = $value;
+    }
+    public function __get($name)
+    {
+        echo "__get called for $name\n<br>";
+        return $this->data[$name] ?? null;
+    }
+
+    public function __call($name, $arguments)
+    {
+        echo "Tried calling method " . $name . ' with arguments: ';
+        print_r($arguments);
+    }
+}
+$obj = new Demo();
+$obj->foo = 42;
+echo $obj->foo;
+$obj->bar(1, 2, 3);
+echo "<br>";
+?>
+
+<!-- Object Iteration -->
+
+<?php
+class Person
+{
+    public $name = "Alice";
+    public $age = '30';
+}
+
+$p = new Person();
+foreach ($p as $key => $value) {
+    echo " $key => $value <br>";
+}
+?>
+
+<?php
+class MyCollection implements Iterator
+{
+    private $items = ['apple', 'banana', 'cherry'];
+    private $position = 0;
+
+    public function current(): mixed
+    {
+        return $this->items[$this->position];
+    }
+
+    public function next(): void
+    {
+        ++$this->position;
+    }
+
+    public function key(): mixed
+    {
+        return $this->position;
+    }
+
+    public function valid(): bool
+    {
+        return isset($this->items[$this->position]);
+    }
+
+    public function rewind(): void
+    {
+        $this->position = 0;
+    }
+}
+
+$fruits = new MyCollection();
+foreach ($fruits as $key => $value) {
+    echo "$key=>$value <br>";
+}
+?>
+
+<?php
+class MyCollectionOne implements IteratorAggregate
+{
+    private $items = ['dog', 'cat', 'rabbit'];
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->items);
+    }
+}
+
+$animals = new MyCollectionOne();
+foreach ($animals as $key => $value) {
+    echo "$key=>$value <br>";
+}
+?>
+
+<!-- Object serialize -->
+<?php
+class User
+{
+    public $name;
+    public $email;
+}
+
+$user = new User();
+$user->name = "Arathi";
+$user->email = "arathi@example.com";
+
+// Convert object to string
+$serialized = serialize($user);
+
+echo $serialized . "<br>";
+?>
+
+<!-- Namespaces -->
+ 
+<?php
+require 'App/Controllers/person.php';
+$person = new namespaceone\Person();
+$person->greet();
+?>
+
+<?php
+require 'App/models/person.php';
+
+use App\models\PersonModel as ModelPerson;
+
+$person = new ModelPerson();
+$person->greet();
+try {
+    echo "Trying...<br>";
+    throw new Exception("Oops!");
+} catch (Exception $e) {
+    echo "Caught: " . $e->getMessage() . "<br>";
+} finally {
+    echo "This will always execute.";
+}
+
 ?>
