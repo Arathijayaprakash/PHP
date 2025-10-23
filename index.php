@@ -619,7 +619,7 @@ echo $serialized . "<br>";
 ?>
 
 <!-- Namespaces -->
- 
+
 <?php
 require 'App/Controllers/person.php';
 $person = new namespaceone\Person();
@@ -642,4 +642,53 @@ try {
     echo "This will always execute.";
 }
 
+?>
+
+<!-- generators -->
+
+<?php
+function getNumbers()
+{
+    for ($i = 0; $i <= 5; $i++) {
+        yield $i;
+    }
+}
+foreach (getNumbers() as $num) {
+    echo $num . " ";
+}
+?>
+
+<!-- references -->
+
+<?php
+$a = 5;
+$b = &$a;
+$b = 10;
+echo "<br>";
+echo $a;
+echo "<br>";
+
+function &getArray(&$arr, $key)
+{
+    return $arr[$key];
+}
+
+$data = ["a" => 10, "b" => 20];
+$value = &getArray($data, "a");
+$value = 30;
+print_r($data);
+?>
+
+<!-- predefined variables -->
+
+<?php
+$x = 100;
+$y = 200;
+function sum()
+{
+    echo $GLOBALS['x'] + $GLOBALS['y'];
+}
+sum();
+echo $_SERVER['PHP_SELF'];
+echo $_GET['name']
 ?>
