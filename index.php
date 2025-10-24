@@ -692,3 +692,32 @@ sum();
 echo $_SERVER['PHP_SELF'];
 echo $_GET['name']
 ?>
+
+<!-- protocols -->
+<?php
+$content = file_get_contents("http://localhost:3000/dashboard");
+echo $content;
+?>
+
+<?php
+$data = file_get_contents("php://input");
+echo "Received data: " . $data;
+print_r(stream_get_wrappers())
+?>
+
+<!-- Arrow functions -->
+<?php
+$add = fn($a, $b) => $a + $b;
+echo $add(2, 3);
+?>
+
+<!-- recursion -->
+<?php
+function factorial($n)
+{
+    if ($n <= 1)  return 1;
+    return $n * factorial($n - 1);
+}
+
+echo factorial(5);
+?>
