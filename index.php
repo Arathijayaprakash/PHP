@@ -721,3 +721,67 @@ function factorial($n)
 
 echo factorial(5);
 ?>
+
+<!-- String functions -->
+
+<?php
+
+$string = "Arathi";
+echo "<br>";
+echo "string length:" . strlen(($string));
+echo strrev($string);
+echo "<br>";
+
+?>
+
+<!-- Array functions -->
+
+<?php
+$arr = array(1, 2, 3, 4, 5);
+echo "Array Functions";
+echo count($arr);
+echo sizeof($arr);
+echo is_array(($arr));
+array_push($arr, 'x', 'y');
+echo "<br>";
+
+echo 'array after push ' . var_dump($arr);
+echo "<br>";
+
+array_pop($arr);
+echo 'array after pop ' . var_dump($arr);
+echo "<br>";
+
+array_unshift($arr, 'z');
+echo 'array after unshift ' . var_dump($arr);
+echo "<br>";
+
+
+?>
+
+<!-- date time functions -->
+<?php
+echo date("l, d M Y H:i:s");
+date_default_timezone_set("Asia/Kolkata");
+echo date("Y-m-d H:i:s"); // Local Indian time
+
+$timestamp = strtotime("2025-12-25");
+echo date("l", $timestamp); // Thursday
+$date = new DateTime("2025-10-22 10:30:00");
+$date->modify("+1 day");
+echo $date->format("Y-m-d H:i:s"); // 2025-10-23 10:30:00
+
+$date1 = new DateTime("2025-10-22");
+$date2 = new DateTime("2025-12-31");
+$diff = $date1->diff($date2);
+echo $diff->days . " days remaining";
+// Output: 70 days remaining
+
+echo date("Y-m-d", strtotime("+7 days"));
+
+$start = strtotime("2025-10-01");
+$end = strtotime("2025-10-22");
+$diff = ($end - $start) / (60 * 60 * 24);
+echo "Difference: $diff days"; // 21 days
+
+?>
