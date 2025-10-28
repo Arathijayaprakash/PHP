@@ -785,3 +785,84 @@ $diff = ($end - $start) / (60 * 60 * 24);
 echo "Difference: $diff days"; // 21 days
 
 ?>
+
+<!-- CType functions -->
+<?php
+echo "<br>";
+var_dump(ctype_alnum("Hello123"));
+var_dump(ctype_alpha("ABC"));
+var_dump(ctype_cntrl("\n"))
+?>
+
+<!-- cURL functions -->
+<?php
+//initialize
+$ch = curl_init();
+
+//set options
+curl_setopt($ch, CURLOPT_URL, "https://jsonplaceholder.typicode.com/posts/1");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+//execute
+$response = curl_exec($ch);
+
+//curl close
+curl_close($ch);
+
+//display response
+echo $response
+?>
+
+<?php
+$data = [
+    "title" => "Hello World",
+    "id" => "This is a test post",
+    "body" => "This is the body",
+    "userId" => 11
+];
+
+$ch = curl_init("https://jsonplaceholder.typicode.com/posts");
+
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "Content-Type: application/json"
+]);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+echo $response;
+?>
+
+<?php
+$ch = curl_init("https://invalid-url.com...");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo "cURL Error: " . curl_error($ch);
+} else {
+    echo $response;
+}
+curl_close($ch)
+?>
+
+<!-- file systems -->
+<?php
+//reading
+$content = file_get_contents("sample.txt");
+echo $content;
+
+//writing
+file_put_contents("newFile.txt", "Newly created file!");
+echo "file created successfully";
+
+//appending 
+file_put_contents("sample.txt", "Appended this line", FILE_APPEND);
+
+//Checking if a File Exists
+if(file_exists("sample.txt")){
+    echo "This file exists";
+}
+?>
