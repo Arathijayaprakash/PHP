@@ -3,6 +3,8 @@
 <p>This will also be ignored by PHP and displayed by the browser.</p>
 
 <?php
+setcookie('user', "Arathi", time() + 3600, '/');
+
 $isLoggedInUser = true;
 $user = "Arathi";
 ?>
@@ -862,7 +864,15 @@ echo "file created successfully";
 file_put_contents("sample.txt", "Appended this line", FILE_APPEND);
 
 //Checking if a File Exists
-if(file_exists("sample.txt")){
+if (file_exists("sample.txt")) {
     echo "This file exists";
+}
+?>
+
+<?php
+if (isset($_COOKIE['user'])) {
+    echo "<h3> Welcome back " . $_COOKIE['user'] . "</h3>";
+} else {
+    echo "<h1> Welcome Guest ";
 }
 ?>
