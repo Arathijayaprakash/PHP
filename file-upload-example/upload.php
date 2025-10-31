@@ -45,3 +45,22 @@
 </body>
 
 </html>
+
+<?php
+$var = '10';
+$intVar = (int) $var;
+var_dump($var);
+echo get_debug_type($intVar);
+echo gettype($var);
+
+enum Status
+{
+    case Pending;
+    case Approved;
+    case Rejected;
+}
+$currentStatus = Status::Approved;
+curl_init();
+opendir('uploads');
+// imagecreate('20px', '30px');
+?>

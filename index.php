@@ -90,10 +90,18 @@ echo '<br/>';
 ?>
 
 <!-- Callable -->
-
+<!-- refrence to code that can be execute later
+ a callable can be
+        a string containing a function name
+        an array containing an object and method
+        an array containing a classname and method -->
 <?php
+$globalVar = 'GlobalVar';
 function sayHello()
 {
+    global $globalVar;
+    echo $globalVar;
+    echo $GLOBALS['globalVar'];
     echo "Helloo!";
 }
 $fun = 'sayHello';
@@ -120,10 +128,17 @@ echo '<br/>';
 ?>
 
 <?php
+define('SITE_NAME', 'www.website.com');
+echo SITE_NAME;
+const SITE = 'ste.com';
+echo SITE;
 class Math
 {
+    const PI = 3.14;
+
     static function square($n)
     {
+        echo self::PI;
         return $n * $n;
     }
 }
@@ -152,6 +167,7 @@ echo "without paranthesis $result1";
 $result2 = (5 + 3) * 2;
 echo "with paranthesis $result2";
 echo '<br/>';
+echo Math::PI;
 
 
 ?>
@@ -259,6 +275,7 @@ foreach ($arr as $val) {
 
 <!-- continue -->
 <?php
+echo "<h2>Continue</h2>";
 $arr = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
 foreach ($arr as $key => $value) {
     if (0 === ($key % 2)) { // skip members with even key
